@@ -1,0 +1,10 @@
+# Sample Line Items Sold Report Data
+# This is a text representation of what the Excel file should contain
+
+Job (ID),Opp. Owner,Category,Line Item,Price,Invoice Date
+JOB001,Mike Johnson,Drain Cleaning,Hydro Jetting Service,1250.00,2024-01-15
+JOB002,Sarah Wilson,Plumbing,Basic Drain Clean,850.00,2024-01-16
+JOB004,Alice Johnson,Water Heaters,Water Heater Installation,2100.00,2024-01-18
+JOB005,Mike Johnson,Descaling,Commercial Descale Service,950.00,2024-01-19
+JOB007,Frank Miller,Drain Cleaning,Hydro Jetting + Camera,1800.00,2024-01-23
+JOB008,Grace Lee,Plumbing,Basic Plumbing Repair,1200.00,2024-01-24 

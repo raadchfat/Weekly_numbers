@@ -1,0 +1,12 @@
+# Sample Opportunities Report Data
+# This is a text representation of what the Excel file should contain
+
+Date,Job (ID),Customer,Opportunity Owner,Status,Revenue,Membership Opportunity,Membership Sold
+2024-01-15,JOB001,John Smith,Mike Johnson,Won,1250.00,true,true
+2024-01-16,JOB002,Jane Doe,Sarah Wilson,Won,850.00,false,false
+2024-01-17,JOB003,Bob Brown,Mike Johnson,Lost,0.00,true,false
+2024-01-18,JOB004,Alice Johnson,Sarah Wilson,Won,2100.00,true,true
+2024-01-19,JOB005,Charlie Davis,Mike Johnson,Won,950.00,false,false
+2024-01-22,JOB006,Eva White,Sarah Wilson,Pending,0.00,true,false
+2024-01-23,JOB007,Frank Miller,Mike Johnson,Won,1800.00,true,true
+2024-01-24,JOB008,Grace Lee,Sarah Wilson,Won,1200.00,false,false 
