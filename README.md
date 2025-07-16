@@ -1,70 +1,231 @@
-# Getting Started with Create React App
+# Omaha Drain KPI Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based web dashboard that processes Excel files and displays weekly KPIs for Omaha Drain service technicians. The dashboard provides real-time data processing, interactive visualizations, and comprehensive performance metrics.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Excel File Processing**: Upload and process Opportunities Report and Line Items Sold Report
+- **Real-time KPI Calculations**: Automatic calculation of all required metrics
+- **Interactive Filters**: Filter by technician and week
+- **Responsive Design**: Works on desktop, tablet, and mobile devices
+- **Data Visualization**: Charts for revenue trends and job status distribution
+- **Export Functionality**: Download KPI data as JSON
+- **Error Handling**: Comprehensive validation and error messages
 
-### `npm start`
+## Required KPIs
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **Average Ticket Value** = Total Revenue / Won Jobs Count
+2. **Job Close Rate** = Won Jobs / Total Jobs (excluding Invalid) × 100
+3. **Weekly Revenue** = Sum of revenue from Won jobs
+4. **Membership Win Rate** = Memberships Sold / Membership Opportunities × 100
+5. **Hydro Jetting Jobs Sold** = Count jobs with line items containing "jetting" or "hydro"
+6. **Descaling Jobs Sold** = Count jobs with line items containing "descal"
+7. **Water Heater Jobs Sold** = Count jobs with categories/items containing "water heater"
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Data Structure
 
-### `npm test`
+### Opportunities Report Columns
+- Date
+- Job (ID)
+- Customer
+- Opportunity Owner (technician)
+- Status
+- Revenue
+- Membership Opportunity
+- Membership Sold
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Line Items Sold Report Columns
+- Job (ID)
+- Opp. Owner (technician)
+- Category
+- Line Item
+- Price
+- Invoice Date
 
-### `npm run build`
+## Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **React 18** with hooks (useState, useEffect, useMemo)
+- **Tailwind CSS** for styling
+- **Recharts** for data visualization
+- **SheetJS (xlsx)** for Excel file processing
+- **Lodash** for data manipulation
+- **Lucide React** for icons
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/raadchfat/Weekly_numbers.git
+   cd omaha-drain-dashboard
+   ```
 
-### `npm run eject`
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. **Start the development server**
+   ```bash
+   npm start
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Usage
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 1. Upload Excel Files
+- Drag and drop your Opportunities Report and Line Items Sold Report Excel files
+- Or click "browse files" to select them manually
+- The system will automatically identify which file is which based on filename
 
-## Learn More
+### 2. View Dashboard
+- Once files are processed, the dashboard will display automatically
+- Use the technician filter to view data for specific technicians or "All Technicians"
+- Use the week filter to view data for specific weeks
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 3. Analyze KPIs
+- View all 7 KPIs in the card grid
+- Each KPI shows the calculated value and supporting context
+- Hover over charts for detailed information
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 4. Export Data
+- Click the "Export" button to download current KPI data as JSON
+- The export includes all metrics, filters, and timestamp
 
-### Code Splitting
+## File Requirements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Excel File Format
+- Files must be in `.xlsx` or `.xls` format
+- First row should contain column headers
+- Data should start from the second row
 
-### Analyzing the Bundle Size
+### Required Columns
+The system is flexible with column naming but expects these data points:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**Opportunities Report:**
+- Date (any date format)
+- Job ID (can be "Job (ID)", "Job ID", or "Job")
+- Customer name
+- Technician/Opportunity Owner
+- Status (Won, Lost, Pending, etc.)
+- Revenue (numeric)
+- Membership Opportunity (boolean/string)
+- Membership Sold (boolean/string)
 
-### Making a Progressive Web App
+**Line Items Report:**
+- Job ID (must match Opportunities Report)
+- Technician/Opportunity Owner
+- Category
+- Line Item
+- Price (numeric)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Data Processing Logic
 
-### Advanced Configuration
+### File Merging
+- Data is merged using Job ID as the primary key
+- Line items are attached to opportunities as a nested array
+- Missing data is handled gracefully with default values
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### KPI Calculations
+- All calculations are performed in real-time
+- Week numbers are calculated using ISO week numbering
+- Invalid jobs are automatically excluded from calculations
+- Service-specific jobs are identified by searching category and line item names
 
-### Deployment
+### Filtering
+- Technician filter: "All Technicians" or specific technician
+- Week filter: Available weeks are automatically detected from data
+- All filters update calculations and charts in real-time
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Component Structure
 
-### `npm run build` fails to minify
+```
+src/
+├── App.jsx                    # Main application component
+├── components/
+│   ├── FileUpload.jsx         # File upload interface
+│   ├── Dashboard.jsx          # Main dashboard layout
+│   ├── KPICard.jsx           # Individual KPI display
+│   ├── TechnicianFilter.jsx   # Technician selection
+│   ├── WeekFilter.jsx        # Week selection
+│   └── Charts/
+│       ├── RevenueChart.jsx   # Revenue trend chart
+│       └── JobStatusChart.jsx # Job status pie chart
+├── hooks/
+│   ├── useDataProcessor.js    # File processing logic
+│   └── useKPICalculator.js    # KPI calculation logic
+└── utils/
+    ├── dateUtils.js          # Date and week utilities
+    ├── excelParser.js        # Excel file parsing
+    └── kpiCalculations.js    # KPI calculation functions
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Error Handling
+
+The application includes comprehensive error handling for:
+
+- **File Format Errors**: Invalid Excel files or missing required columns
+- **Data Validation**: Missing or malformed data
+- **Processing Errors**: Issues during file parsing or data merging
+- **User Feedback**: Clear error messages and loading states
+
+## Performance Features
+
+- **Memoized Calculations**: KPI calculations are cached and only recalculated when necessary
+- **Efficient Data Processing**: Large Excel files are processed efficiently
+- **Responsive Charts**: Charts automatically resize for different screen sizes
+- **Optimized Rendering**: Components only re-render when their data changes
+
+## Browser Compatibility
+
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
+
+## Development
+
+### Available Scripts
+
+- `npm start` - Start development server
+- `npm run build` - Build for production
+- `npm test` - Run tests
+- `npm run eject` - Eject from Create React App
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+The build folder will contain the production-ready application.
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Files not uploading**: Ensure files are in .xlsx or .xls format
+2. **No data showing**: Check that Excel files have the required columns
+3. **Calculations seem wrong**: Verify that Job IDs match between files
+4. **Charts not displaying**: Ensure data contains valid dates and numeric values
+
+### Debug Mode
+
+Open browser developer tools and check the console for detailed error messages and data processing information.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
+
+## Support
+
+For support or questions, please open an issue on the GitHub repository or contact the development team.
